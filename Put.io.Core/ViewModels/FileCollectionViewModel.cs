@@ -9,6 +9,9 @@ using Put.io.Core.ProgressTracking;
 using Put.io.Core.Storage;
 using System.Linq;
 using RestSharp;
+using Windows.Phone.Storage.SharedAccess;
+using Windows.Storage;
+using System.Windows.Navigation;
 
 namespace Put.io.Core.ViewModels
 {
@@ -230,6 +233,20 @@ namespace Put.io.Core.ViewModels
             var ids = selected.Select(x => x.File.FileID);
 
             RestApi.DeleteFiles(ids, response =>
+            {
+                ProgressTracker.CompleteTransaction(transaction);
+
+                if (response.ResponseStatus == ResponseStatus.Completed)
+                    Refresh();
+            });
+        }
+
+        public async void UploadFile(string fileToken)
+        {
+            var transaction = ProgressTracker.StartNewTransaction();
+            byte[] file = await FileExtensions.ReadFromFile("imported.torrent");
+
+            RestApi.UploadFiles(file, response =>
             {
                 ProgressTracker.CompleteTransaction(transaction);
 

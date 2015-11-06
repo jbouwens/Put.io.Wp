@@ -36,6 +36,13 @@
         </TemplateFlip>
       </PrimaryToken>
     </Tokens>
+		<Extensions>
+			<FileTypeAssociation Name="Torrent" TaskID="_default" NavUriFragment="fileToken=%s">
+				<SupportedFileTypes>
+					<FileType ContentType="text/plain">.torrent</FileType>
+				</SupportedFileTypes>
+			</FileTypeAssociation>
+		</Extensions>
     <ScreenResolutions>
       <ScreenResolution Name="ID_RESOLUTION_WVGA" />
       <ScreenResolution Name="ID_RESOLUTION_WXGA" />

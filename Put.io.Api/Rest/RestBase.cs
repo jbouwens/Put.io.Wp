@@ -2,6 +2,7 @@
 using System.Globalization;
 using Put.io.Api.UrlHelper;
 using RestSharp;
+using RestSharp.Authenticators;
 
 namespace Put.io.Api.Rest
 {
@@ -16,11 +17,20 @@ namespace Put.io.Api.Rest
         }
 
         private IRestClient _restClient;
+        private IRestClient _restClientUpload;
         protected IRestClient RestClient
         {
             get
             {
                 return _restClient ?? (_restClient = new RestClient(UrlHelper.ApiUrl) { Authenticator = new OAuth2UriQueryParameterAuthenticator(AuthKey) });
+            }
+        }
+
+        protected IRestClient RestUploadClient
+        {
+            get
+            {
+                return (_restClientUpload = new RestClient(UrlHelper.UploadApiUrl) { Authenticator = new OAuth2UriQueryParameterAuthenticator(AuthKey) });
             }
         }
 

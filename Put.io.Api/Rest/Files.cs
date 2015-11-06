@@ -5,6 +5,11 @@ using System.Linq;
 using Put.io.Api.ResponseObjects;
 using Put.io.Api.ResponseObjects.Files;
 using RestSharp;
+using Windows.Storage;
+using Put.io.Api.ResponseObjects.Transfers;
+using System.Threading.Tasks;
+using System.IO;
+using Windows.Storage.Streams;
 
 namespace Put.io.Api.Rest
 {
@@ -145,6 +150,34 @@ namespace Put.io.Api.Rest
             request.AddParameter("file_ids", ids);
 
             RestClient.ExecuteAsync(request, callback);
+        }
+
+        public async void UploadFiles(byte[] file, Action<IRestResponse<GetTransferResponse>> callback)
+        {
+            var storageFile = await ApplicationData.Current.LocalFolder.GetFileAsync("imported.torrent");
+
+            var content = await ReadFromFile(storageFile);
+            var request = NewRequest(UrlHelper.UploadFile(), Method.POST);
+            //request.AddParameter("application/json", content, ParameterType.RequestBody);
+            request.AddParameter("file", content);
+            request.AddHeader("Content-Type", "application/x-bittorrent");
+            request.RequestFormat = DataFormat.Json;
+
+
+            RestUploadClient.ExecuteAsync(request, callback);
+        }
+
+        public static async Task<byte[]> ReadFromFile(StorageFile file)
+        {
+            IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.Read);
+            DataReader reader = new DataReader(stream.GetInputStreamAt(0));
+
+            uint streamSize = (uint)stream.Size;
+            await reader.LoadAsync(streamSize);
+            byte[] buffer = new byte[streamSize];
+            reader.ReadBytes(buffer);
+            return buffer;
+
         }
 
 

@@ -8,6 +8,7 @@ namespace Put.io.Api.UrlHelper
         public int ClientID { get; private set; }
         public string CallbackUrl { get; private set; }
         public string ApiUrl { get; private set; }
+		public string UploadApiUrl { get; set; }
 
         public StandardUrlSetup()
         {
@@ -17,6 +18,7 @@ namespace Put.io.Api.UrlHelper
             CallbackUrl = "http://x-volt.com";
 
             ApiUrl = "https://api.put.io/v2";
+			UploadApiUrl = "https://upload.put.io/v2";
         }
 
         public string AuthenticateUrl()
@@ -92,5 +94,10 @@ namespace Put.io.Api.UrlHelper
         {
             return "/account/info";
         }
-    }
+
+		public string UploadFile()
+		{
+            return "/files/upload";
+		}
+	}
 }

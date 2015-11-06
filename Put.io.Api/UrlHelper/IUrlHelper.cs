@@ -5,6 +5,7 @@
         int ClientID { get; }
         string CallbackUrl { get; }
         string ApiUrl { get; }
+        string UploadApiUrl { get; }
 
         string AuthenticateUrl();
 
@@ -25,5 +26,6 @@
 
         //Account Info API
         string AccountInfo();
+		string UploadFile();
     }
 }

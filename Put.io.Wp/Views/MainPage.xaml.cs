@@ -14,6 +14,8 @@ using Put.io.Wp.UserControls;
 using Put.io.Wp.UserControls.Popups;
 using ReviewNotifier.Apollo;
 using GestureEventArgs = System.Windows.Input.GestureEventArgs;
+using Windows.Phone.Storage.SharedAccess;
+using Windows.Storage;
 
 namespace Put.io.Wp.Views
 {
@@ -38,10 +40,19 @@ namespace Put.io.Wp.Views
         #region System
 
         // Load data for the ViewModel Items
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             App.ViewModel.OnWorkingStatusChanged += ViewModel_OnWorkingStatusChanged;
             App.ViewModel.OnOpenFilePopup += ViewModel_OnOpenFilePopup;
+
+            if (NavigationContext.QueryString.ContainsKey("fileToken"))
+            {
+                await SharedStorageAccessManager.CopySharedFileAsync(ApplicationData.Current.LocalFolder, "imported.torrent",
+                                                                                               NameCollisionOption.ReplaceExisting,
+                                                                                               NavigationContext.QueryString["fileToken"]);
+                var test = await ApplicationData.Current.LocalFolder.GetFilesAsync();
+                App.ViewModel.FileCollection.UploadFile(NavigationContext.QueryString["fileToken"]);
+            }
 
             if (!App.ViewModel.IsDataLoaded)
             {

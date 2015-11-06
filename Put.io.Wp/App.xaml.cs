@@ -150,9 +150,10 @@ namespace Put.io.Wp
             // screen to remain active until the application is ready to render.
             RootFrame = new PhoneApplicationFrame();
             RootFrame.Navigated += CompleteInitializePhoneApplication;
+			RootFrame.UriMapper = new Helpers.UriMapper();
 
-            // Handle navigation failures
-            RootFrame.NavigationFailed += RootFrame_NavigationFailed;
+			// Handle navigation failures
+			RootFrame.NavigationFailed += RootFrame_NavigationFailed;
 
             // Handle reset requests for clearing the backstack
             RootFrame.Navigated += CheckForResetNavigation;
