@@ -243,7 +243,7 @@ namespace Put.io.Core.ViewModels
             });
         }
 
-        public async void UploadFile(string fileToken)
+        public async void UploadFile()
         {
             var transaction = ProgressTracker.StartNewTransaction();
             FileStream file = await FileExtensions.ReadFromFile("imported.torrent");

@@ -51,7 +51,7 @@ namespace Put.io.Wp.Views
                                                                                                NameCollisionOption.ReplaceExisting,
                                                                                                NavigationContext.QueryString["fileToken"]);
                 var test = await ApplicationData.Current.LocalFolder.GetFilesAsync();
-                App.ViewModel.FileCollection.UploadFile(NavigationContext.QueryString["fileToken"]);
+                App.ViewModel.FileCollection.UploadFile();
             }
 
             if (!App.ViewModel.IsDataLoaded)

@@ -30,7 +30,7 @@ namespace Put.io.Api.Rest
         {
             get
             {
-                return (_restClientUpload = new RestClient(UrlHelper.UploadApiUrl) { Authenticator = new OAuth2UriQueryParameterAuthenticator(AuthKey) });
+                return _restClientUpload = new RestClient(UrlHelper.UploadApiUrl) { Authenticator = new OAuth2UriQueryParameterAuthenticator(AuthKey) };
             }
         }
 

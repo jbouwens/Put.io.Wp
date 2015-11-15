@@ -159,10 +159,7 @@ namespace Put.io.Api.Rest
             var content = await ReadFromFile(storageFile);
             var request = NewRequest(UrlHelper.UploadFile(), Method.POST);
             request.AddFile("file", content, "imported.torrent");
-            //request.AlwaysMultipartFormData = true;
-            request.AddQueryParameter("oauth_token", "XXXXXXXX");
-            //Add one of these for each form boundary you need
-            //request.AddParameter("key", "value", ParameterType.GetOrPost);
+            request.AddQueryParameter("oauth_token", AuthKey);
 
             RestUploadClient.ExecuteAsync(request, callback);
         }
