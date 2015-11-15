@@ -152,17 +152,17 @@ namespace Put.io.Api.Rest
             RestClient.ExecuteAsync(request, callback);
         }
 
-        public async void UploadFiles(byte[] file, Action<IRestResponse<GetTransferResponse>> callback)
+        public async void UploadFiles(FileStream file, Action<IRestResponse<GetTransferResponse>> callback)
         {
             var storageFile = await ApplicationData.Current.LocalFolder.GetFileAsync("imported.torrent");
 
             var content = await ReadFromFile(storageFile);
             var request = NewRequest(UrlHelper.UploadFile(), Method.POST);
-            //request.AddParameter("application/json", content, ParameterType.RequestBody);
-            request.AddParameter("file", content);
-            request.AddHeader("Content-Type", "application/x-bittorrent");
-            request.RequestFormat = DataFormat.Json;
-
+            request.AddFile("file", content, "imported.torrent");
+            //request.AlwaysMultipartFormData = true;
+            request.AddQueryParameter("oauth_token", "XXXXXXXX");
+            //Add one of these for each form boundary you need
+            //request.AddParameter("key", "value", ParameterType.GetOrPost);
 
             RestUploadClient.ExecuteAsync(request, callback);
         }

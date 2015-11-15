@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using Put.io.Core.Common;
 using Put.io.Core.InvokeSynchronising;
 using Put.io.Core.Models;
@@ -12,6 +13,7 @@ using RestSharp;
 using Windows.Phone.Storage.SharedAccess;
 using Windows.Storage;
 using System.Windows.Navigation;
+using File = Put.io.Core.Models.File;
 
 namespace Put.io.Core.ViewModels
 {
@@ -244,7 +246,7 @@ namespace Put.io.Core.ViewModels
         public async void UploadFile(string fileToken)
         {
             var transaction = ProgressTracker.StartNewTransaction();
-            byte[] file = await FileExtensions.ReadFromFile("imported.torrent");
+            FileStream file = await FileExtensions.ReadFromFile("imported.torrent");
 
             RestApi.UploadFiles(file, response =>
             {
