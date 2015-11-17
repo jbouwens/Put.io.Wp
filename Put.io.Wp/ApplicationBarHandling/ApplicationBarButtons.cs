@@ -8,6 +8,7 @@
         SelectAll,
         Convert,
         Select,
-        Delete
+        Delete,
+        Add
     }
 }

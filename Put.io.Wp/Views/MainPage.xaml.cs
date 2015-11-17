@@ -16,6 +16,7 @@ using ReviewNotifier.Apollo;
 using GestureEventArgs = System.Windows.Input.GestureEventArgs;
 using Windows.Phone.Storage.SharedAccess;
 using Windows.Storage;
+using Windows.Storage.Pickers;
 
 namespace Put.io.Wp.Views
 {
@@ -259,7 +260,7 @@ namespace Put.io.Wp.Views
         {
             ButtonHandler.DisplayButtons(Files.IsSelectionEnabled ?
                 new[] { ApplicationBarButtons.SelectAll, ApplicationBarButtons.Delete, ApplicationBarButtons.Convert } :
-                new[] { ApplicationBarButtons.Refresh, ApplicationBarButtons.Select });
+                new[] { ApplicationBarButtons.Add, ApplicationBarButtons.Refresh, ApplicationBarButtons.Select });
         }
 
         private void ButtonHandlerOnOnClick(ApplicationBarButtons button)
@@ -283,6 +284,9 @@ namespace Put.io.Wp.Views
                     break;
                 case ApplicationBarButtons.Select:
                     SelectClicked();
+                    break;
+                case ApplicationBarButtons.Add:
+                    AddClicked();
                     break;
             }
         }
@@ -373,6 +377,15 @@ namespace Put.io.Wp.Views
                 if (container != null)
                     container.IsSelected = true;
             }
+        }
+
+        private void AddClicked()
+        {
+            FileOpenPicker openPicker = new FileOpenPicker();
+            openPicker.ViewMode = PickerViewMode.List;
+            openPicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
+            openPicker.FileTypeFilter.Add("*");
+            openPicker.PickMultipleFilesAsync();
         }
 
         #endregion

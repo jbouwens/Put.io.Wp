@@ -26,6 +26,7 @@ namespace Put.io.Wp.ApplicationBarHandling
             ButtonCache.Add(GetButton(@"/Assets/AppBar/film.png", "to Mp4", ApplicationBarButtons.Convert));
             ButtonCache.Add(GetButton(@"/Assets/AppBar/select.png", "Select Many", ApplicationBarButtons.Select));
             ButtonCache.Add(GetButton(@"/Assets/AppBar/delete.png", "delete", ApplicationBarButtons.Delete));
+            ButtonCache.Add(GetButton(@"/Assets/AppBar/add.png", "Add", ApplicationBarButtons.Add));
         }
 
         private KeyValuePair<ApplicationBarButtons, ApplicationBarIconButton> GetButton(string icon, string text, ApplicationBarButtons buttonType)
