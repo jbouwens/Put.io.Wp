@@ -101,9 +101,6 @@
     <Compile Include="Converters\StatusTypeIsIndeterminate.cs" />
     <Compile Include="Helpers\UriMapper.cs" />
     <Compile Include="LocalizedStrings.cs" />
-    <Compile Include="LogDetail.xaml.cs">
-      <DependentUpon>LogDetail.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\ApiKeyFetcher.xaml.cs">
       <DependentUpon>ApiKeyFetcher.xaml</DependentUpon>
     </Compile>
@@ -131,10 +128,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
-    <Page Include="LogDetail.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="UserControls\ApiKeyFetcher.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

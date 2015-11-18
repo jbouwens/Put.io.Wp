@@ -152,31 +152,14 @@ namespace Put.io.Api.Rest
             RestClient.ExecuteAsync(request, callback);
         }
 
-        public async void UploadFiles(FileStream file, Action<IRestResponse<GetTransferResponse>> callback)
+        public void UploadFiles(byte[] content, Action<IRestResponse<GetTransferResponse>> callback)
         {
-            var storageFile = await ApplicationData.Current.LocalFolder.GetFileAsync("imported.torrent");
-
-            var content = await ReadFromFile(storageFile);
             var request = NewRequest(UrlHelper.UploadFile(), Method.POST);
             request.AddFile("file", content, "imported.torrent");
             request.AddQueryParameter("oauth_token", AuthKey);
 
             RestUploadClient.ExecuteAsync(request, callback);
         }
-
-        public static async Task<byte[]> ReadFromFile(StorageFile file)
-        {
-            IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.Read);
-            DataReader reader = new DataReader(stream.GetInputStreamAt(0));
-
-            uint streamSize = (uint)stream.Size;
-            await reader.LoadAsync(streamSize);
-            byte[] buffer = new byte[streamSize];
-            reader.ReadBytes(buffer);
-            return buffer;
-
-        }
-
 
         //Non-critical api calls
         // GET /files/search/<query>/page/<page_no>

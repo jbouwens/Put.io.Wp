@@ -47,10 +47,11 @@ namespace Put.io.Wp.Views
 
             if (NavigationContext.QueryString.ContainsKey("fileToken"))
             {
-                await SharedStorageAccessManager.CopySharedFileAsync(ApplicationData.Current.LocalFolder, "imported.torrent",
-                                                                                               NameCollisionOption.ReplaceExisting,
-                                                                                               NavigationContext.QueryString["fileToken"]);
-                var test = await ApplicationData.Current.LocalFolder.GetFilesAsync();
+                await
+                    SharedStorageAccessManager.CopySharedFileAsync(ApplicationData.Current.LocalFolder,
+                        "imported.torrent",
+                        NameCollisionOption.ReplaceExisting,
+                        NavigationContext.QueryString["fileToken"]);
                 App.ViewModel.FileCollection.UploadFile();
             }
 

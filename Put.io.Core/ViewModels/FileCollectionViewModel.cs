@@ -246,9 +246,10 @@ namespace Put.io.Core.ViewModels
         public async void UploadFile()
         {
             var transaction = ProgressTracker.StartNewTransaction();
-            FileStream file = await FileExtensions.ReadFromFile("imported.torrent");
+            var storageFile = await ApplicationData.Current.LocalFolder.GetFileAsync("imported.torrent");
+            var content = await FileExtensions.ReadFromFile(storageFile);
 
-            RestApi.UploadFiles(file, response =>
+            RestApi.UploadFiles(content, response =>
             {
                 ProgressTracker.CompleteTransaction(transaction);
 

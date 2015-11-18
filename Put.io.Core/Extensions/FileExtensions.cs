@@ -1,20 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
 namespace Put.io.Core.Extensions
 {
-	class FileExtensions
-	{
-		public static async Task<FileStream> ReadFromFile(string fileName)
-		{
-            var file = await ApplicationData.Current.LocalFolder.GetFileAsync(fileName);
-			return (await file.OpenReadAsync()).AsStreamForRead() as FileStream;
-		}
-	}
+    internal abstract class FileExtensions
+    {
+        public static async Task<byte[]> ReadFromFile(IStorageFile file)
+        {
+            var stream = await file.OpenAsync(FileAccessMode.Read);
+            var reader = new DataReader(stream.GetInputStreamAt(0));
+
+            var streamSize = (uint) stream.Size;
+            await reader.LoadAsync(streamSize);
+            var buffer = new byte[streamSize];
+            reader.ReadBytes(buffer);
+            return buffer;
+        }
+    }
 }
