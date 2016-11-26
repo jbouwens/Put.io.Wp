@@ -40,19 +40,19 @@ namespace Put.io.Wp.Views
         #region System
 
         // Load data for the ViewModel Items
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             App.ViewModel.OnWorkingStatusChanged += ViewModel_OnWorkingStatusChanged;
             App.ViewModel.OnOpenFilePopup += ViewModel_OnOpenFilePopup;
 
             if (NavigationContext.QueryString.ContainsKey("fileToken"))
             {
-                await
-                    SharedStorageAccessManager.CopySharedFileAsync(ApplicationData.Current.LocalFolder,
-                        "imported.torrent",
-                        NameCollisionOption.ReplaceExisting,
-                        NavigationContext.QueryString["fileToken"]);
-                App.ViewModel.FileCollection.UploadFile();
+                var fileToken = NavigationContext.QueryString["fileToken"];
+                var mb = MessageBox.Show($"{SharedStorageAccessManager.GetSharedFileName(fileToken)} will be uploaded to Put.io", "Alert", MessageBoxButton.OKCancel);
+                if (mb == MessageBoxResult.OK)
+                {
+                    App.ViewModel.FileCollection.UploadFile(fileToken);
+                }
             }
 
             if (!App.ViewModel.IsDataLoaded)
@@ -204,6 +204,18 @@ namespace Put.io.Wp.Views
             Popup.OnClose += PopupOnClose;
             Popup.OnRedirect += PopupOnRedirect;
             Popup.Open();
+        }
+
+        private void UploadFilePopup(IPopupClient apiKeyFetcher)
+        {
+            MessageBoxResult mb = MessageBox.Show("Press OK to upload this torrent", "Hey", MessageBoxButton.OKCancel);
+
+
+            if (mb != MessageBoxResult.OK)
+            {
+                
+            }
+
         }
 
         private void ViewModel_OnOpenFilePopup(FileViewModel file, ProgressTracker tracker)

@@ -243,8 +243,12 @@ namespace Put.io.Core.ViewModels
             });
         }
 
-        public async void UploadFile()
+        public async void UploadFile(string fileToken)
         {
+            await SharedStorageAccessManager.CopySharedFileAsync(ApplicationData.Current.LocalFolder,
+                "imported.torrent",
+                NameCollisionOption.ReplaceExisting,
+                fileToken);
             var transaction = ProgressTracker.StartNewTransaction();
             var storageFile = await ApplicationData.Current.LocalFolder.GetFileAsync("imported.torrent");
             var content = await FileExtensions.ReadFromFile(storageFile);
@@ -254,7 +258,9 @@ namespace Put.io.Core.ViewModels
                 ProgressTracker.CompleteTransaction(transaction);
 
                 if (response.ResponseStatus == ResponseStatus.Completed)
+                {
                     Refresh();
+                }
             });
         }
 
